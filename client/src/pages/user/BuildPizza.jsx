@@ -13,99 +13,82 @@ const steps = [
 ];
 
 const PizzaPreview = ({ selection }) => {
-  const toppingPositions = [
-    { top: '22%', left: '32%', transform: 'rotate(15deg)' },
-    { top: '18%', left: '55%', transform: 'rotate(-25deg)' },
-    { top: '38%', left: '18%', transform: 'rotate(40deg)' },
-    { top: '32%', left: '72%', transform: 'rotate(-15deg)' },
-    { top: '56%', left: '26%', transform: 'rotate(20deg)' },
-    { top: '52%', left: '60%', transform: 'rotate(10deg)' },
-    { top: '72%', left: '32%', transform: 'rotate(-40deg)' },
-    { top: '68%', left: '55%', transform: 'rotate(45deg)' },
-    { top: '45%', left: '44%', transform: 'rotate(0deg)' },
-    { top: '30%', left: '46%', transform: 'rotate(85deg)' },
-  ];
-
-  const getSauceClass = (sauceName) => {
-    if (!sauceName) return '';
-    const name = sauceName.toLowerCase();
-    if (name.includes('marinara')) return 'sauce-marinara';
-    if (name.includes('bbq')) return 'sauce-bbq';
-    if (name.includes('alfredo')) return 'sauce-alfredo';
-    if (name.includes('pesto')) return 'sauce-pesto';
-    if (name.includes('hot')) return 'sauce-hot';
-    return 'sauce-default';
+  const CLOUDINARY_BASE = "https://res.cloudinary.com/ddn1qjenm/image/upload/pizzonex/builder";
+  
+  const format = (name) => {
+    if (!name) return '';
+    return name.toLowerCase().replace(/\s+/g, '-');
   };
 
-  const getCheeseClass = (cheeseName) => {
-    if (!cheeseName) return '';
-    const name = cheeseName.toLowerCase();
-    if (name.includes('mozzarella')) return 'cheese-mozzarella';
-    if (name.includes('cheddar')) return 'cheese-cheddar';
-    if (name.includes('parmesan')) return 'cheese-parmesan';
-    if (name.includes('vegan') || name.includes('gouda')) return 'cheese-gouda';
-    return 'cheese-default';
-  };
-
-  const getBaseClass = (baseName) => {
-    if (!baseName) return '';
-    const name = baseName.toLowerCase();
-    if (name.includes('thin')) return 'base-thin';
-    if (name.includes('thick')) return 'base-thick';
-    if (name.includes('stuffed')) return 'base-stuffed';
-    if (name.includes('gluten')) return 'base-gluten';
-    if (name.includes('wheat')) return 'base-wheat';
-    return 'base-default';
-  };
+  const base = selection.base ? [selection.base.name] : [];
+  const sauce = selection.sauce ? [selection.sauce.name] : [];
+  const cheese = selection.cheese ? [selection.cheese.name] : [];
+  
+  // Separate veggies and meats from selection.veggies
+  const veggies = selection.veggies.filter(v => v.category === 'veggie');
+  const meats = selection.veggies.filter(v => v.category === 'meat');
 
   return (
     <div className="pizza-preview-card">
-      <div className="pizza-board">
-        <div className="pizza-board-handle"></div>
-        <div className="pizza-canvas">
-          {selection.base ? (
-            <div className={`pizza-layer-crust ${getBaseClass(selection.base.name)}`}>
-              {selection.sauce && (
-                <div className={`pizza-layer-sauce ${getSauceClass(selection.sauce.name)}`}></div>
-              )}
-              {selection.cheese && (
-                <div className={`pizza-layer-cheese ${getCheeseClass(selection.cheese.name)}`}>
-                  <div className="cheese-melt-spots">
-                    <span className="spot-1"></span>
-                    <span className="spot-2"></span>
-                    <span className="spot-3"></span>
-                    <span className="spot-4"></span>
-                  </div>
-                </div>
-              )}
-              {selection.veggies.map((topping, tIdx) => (
-                <div key={topping._id || tIdx} className="pizza-layer-toppings">
-                  {toppingPositions.map((pos, pIdx) => (
-                    <span
-                      key={pIdx}
-                      className="pizza-topping-item animate-topping"
-                      style={{
-                        top: pos.top,
-                        left: pos.left,
-                        transform: pos.transform,
-                        animationDelay: `${pIdx * 50}ms`
-                      }}
-                    >
-                      {topping.image || '🍕'}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="pizza-preview-empty">
-              <span>🍕</span>
-              <p>Choose crust base to start crafting</p>
-            </div>
-          )}
-        </div>
+      <div className="pizza-preview-canvas-container">
+        {/* Base Layer */}
+        {base[0] && (
+          <img
+            key={base[0]}
+            src={`${CLOUDINARY_BASE}/bases/${format(base[0])}.png`}
+            alt="Base"
+            className="pizza-layer-img pizza-layer-base animate-layer-entry"
+          />
+        )}
+
+        {/* Sauce Layer */}
+        {sauce[0] && (
+          <img
+            key={sauce[0]}
+            src={`${CLOUDINARY_BASE}/sauces/${format(sauce[0])}.png`}
+            alt="Sauce"
+            className="pizza-layer-img pizza-layer-sauce"
+          />
+        )}
+
+        {/* Cheese Layer */}
+        {cheese[0] && (
+          <img
+            key={cheese[0]}
+            src={`${CLOUDINARY_BASE}/cheese/${format(cheese[0])}.png`}
+            alt="Cheese"
+            className="pizza-layer-img pizza-layer-cheese"
+          />
+        )}
+
+        {/* Veggies */}
+        {veggies.map((veg) => (
+          <img
+            key={veg._id}
+            src={`${CLOUDINARY_BASE}/veggies/${format(veg.name)}.png`}
+            alt={veg.name}
+            className="pizza-layer-img pizza-layer-topping"
+          />
+        ))}
+
+        {/* Meats */}
+        {meats.map((m) => (
+          <img
+            key={m._id}
+            src={`${CLOUDINARY_BASE}/meat/${format(m.name)}.png`}
+            alt={m.name}
+            className="pizza-layer-img pizza-layer-topping"
+          />
+        ))}
+
+        {!base[0] && (
+          <div className="pizza-preview-empty">
+            <span>🍕</span>
+            <p>Choose crust base to start crafting</p>
+          </div>
+        )}
       </div>
-      
+
       <div className="pizza-visual-legend">
         <div className="legend-title">Crafting Details</div>
         <div className="legend-row">

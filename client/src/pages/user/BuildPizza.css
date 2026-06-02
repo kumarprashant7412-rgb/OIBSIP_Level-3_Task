@@ -93,8 +93,8 @@
 /* Two Column Builder Layout */
 .builder-layout-grid {
   display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 36px;
+  grid-template-columns: 1.1fr 1.5fr;
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
   align-items: start;
@@ -105,7 +105,7 @@
   flex-direction: column;
 }
 
-/* Pizza Preview Canvas Card */
+/* Pizza Preview Card */
 .pizza-preview-card {
   background: var(--gradient-card);
   border: 1px solid var(--border-glass);
@@ -122,43 +122,23 @@
   text-align: center;
 }
 
-/* Wooden Pizza Board Graphic */
-.pizza-board {
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, #e29f5f 0%, #ab6e35 100%);
-  border: 8px solid #844c1a;
+/* Replica Pizza Canvas Container */
+.pizza-preview-canvas-container {
+  width: 320px;
+  height: 320px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  perspective: 1000px;
   border-radius: 50%;
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  border: 6px solid var(--border-glass);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), 0 12px 35px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: 24px;
-}
-
-.pizza-board-handle {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 50px;
-  background: #844c1a;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-  z-index: -1;
-}
-
-.pizza-canvas {
-  width: 90%;
-  height: 90%;
-  border-radius: 50%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 26px;
 }
 
 .pizza-preview-empty {
@@ -176,135 +156,74 @@
 }
 
 .pizza-preview-empty p {
-  font-size: 13px;
+  font-size: 13.5px;
   margin-top: 8px;
   font-weight: 600;
-  max-width: 150px;
+  max-width: 180px;
   line-height: 1.4;
 }
 
-/* Layered Pizza Mechanics */
-.pizza-layer-crust {
+/* Layer Images with absolute overlays */
+.pizza-layer-img {
+  position: absolute;
+  pointer-events: none;
+  display: block;
+}
+
+.pizza-layer-base {
+  inset: 0;
+  width: 105%;
+  height: 105%;
+  object-fit: cover;
+  z-index: 2;
+  animation: baseLayerEntry 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pizza-layer-sauce {
+  left: 50%;
+  top: 50%;
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  z-index: 3;
+  animation: sauceLayerEntry 0.5s ease-out forwards;
+}
+
+.pizza-layer-cheese {
+  inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 4px 10px rgba(0,0,0,0.3);
-  position: relative;
-  transition: var(--transition);
+  object-fit: cover;
+  z-index: 4;
+  animation: generalLayerEntry 0.5s ease-out forwards;
 }
 
-/* Crust Thickness Variations */
-.base-thin {
-  background: radial-gradient(circle, #e6c280 60%, #bd863c 96%);
-  border: 8px solid #9c6723;
-}
-
-.base-thick {
-  background: radial-gradient(circle, #f0ca86 50%, #b87c2f 92%);
-  border: 14px solid #8f5817;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 6px 15px rgba(0,0,0,0.4);
-}
-
-.base-stuffed {
-  background: radial-gradient(circle, #eed8ae 60%, #b27a33 90%);
-  border: 16px solid #d4a35f;
-  outline: 4px solid #7c4c15;
-}
-
-.base-gluten {
-  background: radial-gradient(circle, #f3d79e 65%, #cfa05d 95%);
-  border: 10px solid #aa7f42;
-}
-
-.base-wheat {
-  background: radial-gradient(circle, #d0ab7c 60%, #906c42 96%);
-  border: 10px solid #6b4d2a;
-}
-
-.base-default {
-  background: radial-gradient(circle, #ecd09d 60%, #c49454 96%);
-  border: 10px solid #9e6f31;
-}
-
-/* Sauce Layer Mappings */
-.pizza-layer-sauce {
-  position: absolute;
-  inset: 6px;
-  border-radius: 50%;
-  transition: all 0.5s ease-in-out;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
-  animation: fadeIn 0.4s ease-out;
-}
-
-.sauce-marinara { background: radial-gradient(circle, #c42618 60%, #90160b 100%); }
-.sauce-bbq { background: radial-gradient(circle, #5b1a03 60%, #3e1000 100%); }
-.sauce-alfredo { background: radial-gradient(circle, #fbf7e7 65%, #ebdcb4 100%); }
-.sauce-pesto { background: radial-gradient(circle, #486a2f 60%, #2f491c 100%); }
-.sauce-hot { background: radial-gradient(circle, #e93e17 60%, #b72504 100%); }
-.sauce-default { background: #b02318; }
-
-/* Cheese Layer Mappings */
-.pizza-layer-cheese {
-  position: absolute;
-  inset: 12px;
-  border-radius: 50%;
-  transition: all 0.5s ease-in-out;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
-  animation: fadeIn 0.4s ease-out;
-}
-
-.cheese-mozzarella { background: radial-gradient(circle, #fbf4da 60%, #ebd7ab 100%); }
-.cheese-cheddar { background: radial-gradient(circle, #fca317 60%, #db8002 100%); }
-.cheese-parmesan { background: radial-gradient(circle, #f8f3dc 80%, #ebdcb3 100%); opacity: 0.9; }
-.cheese-gouda { background: radial-gradient(circle, #faeaad 60%, #e1cd82 100%); }
-.cheese-default { background: #fdf5d6; }
-
-/* Bubbly spots for cheese melt details */
-.cheese-melt-spots {
-  position: absolute;
+.pizza-layer-topping {
   inset: 0;
-  border-radius: 50%;
-  opacity: 0.45;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 5;
+  animation: generalLayerEntry 0.4s ease-out forwards;
 }
 
-.cheese-melt-spots span {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.45);
-  border-radius: 50%;
-  filter: blur(1px);
+/* Custom Entrance Keyframes */
+@keyframes baseLayerEntry {
+  0% { opacity: 0; transform: scale(0.9) rotate(45deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
-.cheese-melt-spots .spot-1 { top: 20%; left: 30%; width: 25px; height: 18px; }
-.cheese-melt-spots .spot-2 { top: 60%; left: 25%; width: 30px; height: 22px; }
-.cheese-melt-spots .spot-3 { top: 35%; left: 65%; width: 22px; height: 16px; }
-.cheese-melt-spots .spot-4 { top: 70%; left: 55%; width: 26px; height: 20px; }
-
-/* Dynamic Toppings Placement */
-.pizza-layer-toppings {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+@keyframes sauceLayerEntry {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-.pizza-topping-item {
-  position: absolute;
-  font-size: 24px;
-  display: block;
-  z-index: 10;
-  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.4));
-  user-select: none;
+@keyframes generalLayerEntry {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-.animate-topping {
-  animation: dropTopping 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-@keyframes dropTopping {
-  0% { transform: scale(3) translateY(-100px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-/* Visual Legend Breakdown details */
+/* Legend breakdown */
 .pizza-visual-legend {
   width: 100%;
   border-top: 1px solid var(--border-glass);
