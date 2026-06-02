@@ -66,7 +66,7 @@ const Checkout = () => {
             toast.error('Payment verification failed');
           }
         },
-        prefill: { name: user?.name, email: user?.email },
+        prefill: { name: user?.name, email: user?.email, contact: '9999999999' },
         theme: { color: '#ff6b35' },
       };
 
