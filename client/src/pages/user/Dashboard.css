@@ -36,3 +36,96 @@
 .menu-card .stock {
   font-size: 12px; color: var(--text-muted); margin-top: 4px;
 }
+
+/* Our Pizzas section styles */
+.our-pizzas-section {
+  margin-bottom: 48px;
+  animation: fadeIn 0.6s ease-out;
+}
+.our-pizzas-section h2 {
+  font-size: 22px; margin-bottom: 24px; color: var(--text-primary);
+  display: flex; align-items: center; gap: 10px;
+}
+.our-pizzas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.our-pizza-card {
+  background: var(--gradient-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+.our-pizza-card:hover {
+  border-color: rgba(255, 107, 53, 0.4);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-glow);
+}
+.our-pizza-img-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: #0f0f1a;
+  border-bottom: 1px solid var(--border-glass);
+}
+.our-pizza-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.our-pizza-card:hover .our-pizza-img {
+  transform: scale(1.08) rotate(2deg);
+}
+.our-pizza-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.our-pizza-info h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.our-pizza-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+.our-pizza-toppings-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.our-pizza-toppings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.topping-tag {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: var(--transition);
+}
+.our-pizza-card:hover .topping-tag {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: rgba(255, 107, 53, 0.2);
+  color: var(--accent-orange);
+}
+
