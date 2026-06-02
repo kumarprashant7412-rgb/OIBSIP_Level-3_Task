@@ -1,39 +1,151 @@
-.admin-orders { padding: 40px 0; }
-.admin-orders h1 { font-size: 28px; margin-bottom: 24px; }
-.orders-filter { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.admin-orders {
+  padding: 40px 0;
+}
+
+.admin-orders h1 {
+  font-size: 32px;
+  margin-bottom: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.orders-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
 .order-filter-btn {
-  padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
-  background: var(--bg-secondary); color: var(--text-muted); border: 1px solid var(--border-glass);
-  cursor: pointer; transition: var(--transition);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13.5px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+  transition: var(--transition);
 }
-.order-filter-btn.active { background: rgba(255,107,53,0.15); color: var(--accent-orange); border-color: var(--accent-orange); }
+
+.order-filter-btn.active {
+  background: rgba(255, 94, 43, 0.12);
+  color: var(--accent-orange-light);
+  border-color: rgba(255, 94, 43, 0.3);
+  box-shadow: 0 0 15px rgba(255, 94, 43, 0.05);
+}
+
+.order-filter-btn:hover {
+  border-color: rgba(255, 94, 43, 0.3);
+  background: rgba(255, 94, 43, 0.05);
+}
+
 .admin-order-card {
-  background: var(--gradient-card); border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
-  backdrop-filter: blur(12px); animation: fadeIn 0.4s ease-out;
+  background: var(--gradient-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition);
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-shadow: var(--shadow-sm);
+  position: relative;
 }
+
+.admin-order-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: var(--radius-xl);
+}
+
+.admin-order-card:hover {
+  border-color: rgba(255, 94, 43, 0.25);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
 .admin-order-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
+
 .admin-order-customer {
-  display: flex; flex-direction: column; gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.admin-order-customer strong { font-size: 16px; }
-.admin-order-customer small { color: var(--text-muted); font-size: 13px; }
-.admin-order-pizza { 
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 8px; margin-bottom: 16px; padding: 12px; background: var(--bg-primary);
+
+.admin-order-customer strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.admin-order-customer small {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.admin-order-pizza {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.15);
   border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.02);
 }
-.admin-order-pizza div { font-size: 13px; }
-.admin-order-pizza span { color: var(--text-muted); font-size: 11px; display: block; }
+
+.admin-order-pizza div {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.admin-order-pizza span {
+  color: var(--text-muted);
+  font-size: 11px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
 .admin-order-footer {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-glass);
 }
+
 .status-select {
-  padding: 8px 12px; background: var(--bg-primary); border: 1px solid var(--border-glass);
-  border-radius: var(--radius-sm); color: var(--text-primary); font-size: 13px;
-  cursor: pointer; outline: none; transition: var(--transition);
+  padding: 10px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-glass);
+  border-radius: 30px;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
 }
-.status-select:focus { border-color: var(--accent-orange); }
+
+.status-select:focus {
+  border-color: var(--accent-orange-light);
+  box-shadow: 0 0 10px rgba(255, 94, 43, 0.2);
+}

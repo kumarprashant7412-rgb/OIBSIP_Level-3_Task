@@ -1,131 +1,273 @@
-.dashboard { padding: 40px 0; }
-.dashboard-hero {
-  text-align: center; margin-bottom: 48px; animation: fadeIn 0.6s ease-out;
-}
-.dashboard-hero h1 { font-size: 36px; margin-bottom: 8px; }
-.dashboard-hero h1 span {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.dashboard-hero p { color: var(--text-secondary); font-size: 16px; }
-.dashboard-cta {
-  display: flex; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap;
-}
-.menu-section { margin-bottom: 40px; }
-.menu-section h2 {
-  font-size: 22px; margin-bottom: 20px; color: var(--text-primary);
-  display: flex; align-items: center; gap: 10px;
-}
-.menu-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-}
-.menu-card {
-  background: var(--gradient-card); backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-  padding: 24px; text-align: center; transition: var(--transition);
-  cursor: default;
-}
-.menu-card:hover {
-  border-color: rgba(255, 107, 53, 0.3); transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
-}
-.menu-card-icon { font-size: 48px; margin-bottom: 12px; }
-.menu-card h3 { font-size: 16px; margin-bottom: 4px; }
-.menu-card p { color: var(--accent-gold); font-weight: 600; font-size: 14px; }
-.menu-card .stock {
-  font-size: 12px; color: var(--text-muted); margin-top: 4px;
+.dashboard {
+  padding: 40px 0;
 }
 
-/* Our Pizzas section styles */
+.dashboard-hero {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  padding: 60px 24px;
+  background: radial-gradient(circle at center, rgba(255, 94, 43, 0.08) 0%, transparent 70%);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  background-color: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(10px);
+}
+
+.dashboard-hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.dashboard-hero h1 span {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dashboard-hero p {
+  color: var(--text-secondary);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  line-height: 1.6;
+}
+
+.dashboard-cta {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.menu-section {
+  margin-bottom: 50px;
+}
+
+.menu-section h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.menu-card {
+  background: var(--gradient-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  text-align: center;
+  transition: var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.menu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.menu-card:hover {
+  border-color: rgba(255, 94, 43, 0.35);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-glow), var(--shadow-md);
+}
+
+.menu-card-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.menu-card:hover .menu-card-icon {
+  background: rgba(255, 94, 43, 0.08);
+  border-color: rgba(255, 94, 43, 0.25);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.menu-card h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.menu-card p {
+  color: var(--accent-gold);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Featured Pizzas styles */
 .our-pizzas-section {
-  margin-bottom: 48px;
-  animation: fadeIn 0.6s ease-out;
+  margin-bottom: 60px;
+  padding: 40px 24px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(12px);
 }
+
 .our-pizzas-section h2 {
-  font-size: 22px; margin-bottom: 24px; color: var(--text-primary);
-  display: flex; align-items: center; gap: 10px;
+  font-size: 26px;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
 }
+
 .our-pizzas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 28px;
 }
+
 .our-pizza-card {
   background: var(--gradient-card);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-md);
+  position: relative;
 }
+
+.our-pizza-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .our-pizza-card:hover {
-  border-color: rgba(255, 107, 53, 0.4);
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-glow);
+  border-color: rgba(255, 94, 43, 0.45);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glow), var(--shadow-lg);
 }
+
 .our-pizza-img-container {
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
   position: relative;
-  background: #0f0f1a;
+  background: #090a14;
   border-bottom: 1px solid var(--border-glass);
 }
+
 .our-pizza-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .our-pizza-card:hover .our-pizza-img {
-  transform: scale(1.08) rotate(2deg);
+  transform: scale(1.12) rotate(3deg);
 }
+
 .our-pizza-info {
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: relative;
+  z-index: 2;
 }
+
 .our-pizza-info h3 {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 8px;
-  color: var(--text-primary);
+  color: #fff;
+  font-weight: 700;
 }
+
 .our-pizza-desc {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
   flex-grow: 1;
 }
+
 .our-pizza-toppings-title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--accent-gold);
-  margin-bottom: 8px;
-  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
 }
+
 .our-pizza-toppings {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
+
 .topping-tag {
   font-size: 11px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  padding: 4px 8px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  padding: 5px 10px;
   border-radius: 20px;
   transition: var(--transition);
 }
+
 .our-pizza-card:hover .topping-tag {
-  background: rgba(255, 107, 53, 0.1);
-  border-color: rgba(255, 107, 53, 0.2);
-  color: var(--accent-orange);
+  background: rgba(255, 94, 43, 0.12);
+  border-color: rgba(255, 94, 43, 0.25);
+  color: var(--accent-orange-light);
 }
 
+@media (max-width: 768px) {
+  .dashboard-hero {
+    padding: 40px 16px;
+    margin-bottom: 40px;
+  }
+  .dashboard-hero h1 {
+    font-size: 32px;
+  }
+  .dashboard-hero p {
+    font-size: 15px;
+  }
+  .our-pizzas-section {
+    padding: 24px 16px;
+  }
+}

@@ -44,6 +44,11 @@ const Navbar = () => {
               <li><Link to="/my-orders" className={location.pathname === '/my-orders' ? 'active' : ''} onClick={() => setMenuOpen(false)}>My Orders</Link></li>
             </>
           )}
+          <li className="mobile-user-nav">
+            <div className="nav-avatar">{user.name.charAt(0).toUpperCase()}</div>
+            <span>{user.name}</span>
+            <button className="nav-logout" onClick={handleLogout}>Logout</button>
+          </li>
         </ul>
 
         <div className="nav-user">
