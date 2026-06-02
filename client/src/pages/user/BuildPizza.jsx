@@ -12,6 +12,129 @@ const steps = [
   { key: 'review', label: 'Review', icon: '✅' },
 ];
 
+const PizzaPreview = ({ selection }) => {
+  const toppingPositions = [
+    { top: '22%', left: '32%', transform: 'rotate(15deg)' },
+    { top: '18%', left: '55%', transform: 'rotate(-25deg)' },
+    { top: '38%', left: '18%', transform: 'rotate(40deg)' },
+    { top: '32%', left: '72%', transform: 'rotate(-15deg)' },
+    { top: '56%', left: '26%', transform: 'rotate(20deg)' },
+    { top: '52%', left: '60%', transform: 'rotate(10deg)' },
+    { top: '72%', left: '32%', transform: 'rotate(-40deg)' },
+    { top: '68%', left: '55%', transform: 'rotate(45deg)' },
+    { top: '45%', left: '44%', transform: 'rotate(0deg)' },
+    { top: '30%', left: '46%', transform: 'rotate(85deg)' },
+  ];
+
+  const getSauceClass = (sauceName) => {
+    if (!sauceName) return '';
+    const name = sauceName.toLowerCase();
+    if (name.includes('marinara')) return 'sauce-marinara';
+    if (name.includes('bbq')) return 'sauce-bbq';
+    if (name.includes('alfredo')) return 'sauce-alfredo';
+    if (name.includes('pesto')) return 'sauce-pesto';
+    if (name.includes('hot')) return 'sauce-hot';
+    return 'sauce-default';
+  };
+
+  const getCheeseClass = (cheeseName) => {
+    if (!cheeseName) return '';
+    const name = cheeseName.toLowerCase();
+    if (name.includes('mozzarella')) return 'cheese-mozzarella';
+    if (name.includes('cheddar')) return 'cheese-cheddar';
+    if (name.includes('parmesan')) return 'cheese-parmesan';
+    if (name.includes('vegan') || name.includes('gouda')) return 'cheese-gouda';
+    return 'cheese-default';
+  };
+
+  const getBaseClass = (baseName) => {
+    if (!baseName) return '';
+    const name = baseName.toLowerCase();
+    if (name.includes('thin')) return 'base-thin';
+    if (name.includes('thick')) return 'base-thick';
+    if (name.includes('stuffed')) return 'base-stuffed';
+    if (name.includes('gluten')) return 'base-gluten';
+    if (name.includes('wheat')) return 'base-wheat';
+    return 'base-default';
+  };
+
+  return (
+    <div className="pizza-preview-card">
+      <div className="pizza-board">
+        <div className="pizza-board-handle"></div>
+        <div className="pizza-canvas">
+          {selection.base ? (
+            <div className={`pizza-layer-crust ${getBaseClass(selection.base.name)}`}>
+              {selection.sauce && (
+                <div className={`pizza-layer-sauce ${getSauceClass(selection.sauce.name)}`}></div>
+              )}
+              {selection.cheese && (
+                <div className={`pizza-layer-cheese ${getCheeseClass(selection.cheese.name)}`}>
+                  <div className="cheese-melt-spots">
+                    <span className="spot-1"></span>
+                    <span className="spot-2"></span>
+                    <span className="spot-3"></span>
+                    <span className="spot-4"></span>
+                  </div>
+                </div>
+              )}
+              {selection.veggies.map((topping, tIdx) => (
+                <div key={topping._id || tIdx} className="pizza-layer-toppings">
+                  {toppingPositions.map((pos, pIdx) => (
+                    <span
+                      key={pIdx}
+                      className="pizza-topping-item animate-topping"
+                      style={{
+                        top: pos.top,
+                        left: pos.left,
+                        transform: pos.transform,
+                        animationDelay: `${pIdx * 50}ms`
+                      }}
+                    >
+                      {topping.image || '🍕'}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="pizza-preview-empty">
+              <span>🍕</span>
+              <p>Choose crust base to start crafting</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="pizza-visual-legend">
+        <div className="legend-title">Crafting Details</div>
+        <div className="legend-row">
+          <span>🫓 Base:</span>
+          <strong>{selection.base ? selection.base.name : <em style={{color:'var(--text-muted)'}}>None Selected</em>}</strong>
+        </div>
+        <div className="legend-row">
+          <span>🍅 Sauce:</span>
+          <strong>{selection.sauce ? selection.sauce.name : <em style={{color:'var(--text-muted)'}}>None Selected</em>}</strong>
+        </div>
+        <div className="legend-row">
+          <span>🧀 Cheese:</span>
+          <strong>{selection.cheese ? selection.cheese.name : <em style={{color:'var(--text-muted)'}}>None Selected</em>}</strong>
+        </div>
+        <div className="legend-row">
+          <span>🥬 Toppings:</span>
+          <strong>
+            {selection.veggies.length > 0 ? (
+              selection.veggies.map(v => v.name).join(', ')
+            ) : (
+              <em style={{color:'var(--text-muted)'}}>None Selected</em>
+            )}
+          </strong>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const BuildPizza = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
@@ -143,21 +266,29 @@ const BuildPizza = () => {
         ))}
       </div>
 
-      {renderStep()}
+      <div className="builder-layout-grid">
+        {/* Left column: dynamic layered preview */}
+        <PizzaPreview selection={selection} />
 
-      <div className="step-nav">
-        {currentStep > 0 && (
-          <button className="btn btn-secondary" onClick={() => setCurrentStep((p) => p - 1)}>← Back</button>
-        )}
-        {currentStep < 4 ? (
-          <button className="btn btn-primary" disabled={!canProceed()} onClick={() => setCurrentStep((p) => p + 1)}>
-            Next →
-          </button>
-        ) : (
-          <button className="btn btn-primary btn-lg" onClick={handleCheckout}>
-            🛒 Proceed to Checkout — ₹{totalPrice()}
-          </button>
-        )}
+        {/* Right column: controls */}
+        <div className="builder-controls-column">
+          {renderStep()}
+
+          <div className="step-nav">
+            {currentStep > 0 && (
+              <button className="btn btn-secondary" onClick={() => setCurrentStep((p) => p - 1)}>← Back</button>
+            )}
+            {currentStep < 4 ? (
+              <button className="btn btn-primary" disabled={!canProceed()} onClick={() => setCurrentStep((p) => p + 1)}>
+                Next →
+              </button>
+            ) : (
+              <button className="btn btn-primary btn-lg" onClick={handleCheckout}>
+                🛒 Proceed to Checkout — ₹{totalPrice()}
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
