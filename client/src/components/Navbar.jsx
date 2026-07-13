@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="container">
         <Link to={isAdmin ? '/admin' : '/dashboard'} className="nav-brand">
           <span>🍕</span>
-          <span className="nav-brand-text">PizzaCraft</span>
+          <span className="nav-brand-text">SliceHub</span>
         </Link>
 
         <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>

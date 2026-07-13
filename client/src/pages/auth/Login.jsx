@@ -32,7 +32,7 @@ const Login = () => {
       <div className="auth-card">
         <div className="auth-logo">
           <div className="auth-logo-icon">🍕</div>
-          <h1>PizzaCraft</h1>
+          <h1>SliceHub</h1>
           <p>Sign in to your account</p>
         </div>
 

@@ -23,74 +23,19 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'User already exists with this email.' });
     }
 
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-    // Create user (unverified)
+    // Create user
     const user = await User.create({
       name,
       email,
       password,
-      verificationToken,
-      verificationExpires,
-    });
-
-    // Send verification email
-    const verifyUrl = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
-    await sendEmail({
-      to: email,
-      subject: '🍕 Verify Your Email — PizzaCraft',
-      html: `
-        <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 16px; overflow: hidden;">
-          <div style="background: linear-gradient(135deg, #ff6b35, #ff8c42); padding: 32px; text-align: center;">
-            <h1 style="margin: 0; color: #fff; font-size: 28px;">🍕 Welcome to PizzaCraft!</h1>
-          </div>
-          <div style="padding: 32px;">
-            <p style="font-size: 16px;">Hi <strong>${name}</strong>,</p>
-            <p>Thanks for signing up! Click the button below to verify your email address:</p>
-            <div style="text-align: center; margin: 32px 0;">
-              <a href="${verifyUrl}" style="background: linear-gradient(135deg, #ff6b35, #ff8c42); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">Verify Email</a>
-            </div>
-            <p style="color: #888; font-size: 13px;">This link expires in 24 hours. If you didn't sign up, ignore this email.</p>
-          </div>
-        </div>
-      `,
     });
 
     res.status(201).json({
-      message: 'Registration successful! Please check your email to verify your account.',
+      message: 'Registration successful! You can now log in.',
     });
   } catch (error) {
     console.error('Register error:', error);
     res.status(500).json({ message: 'Server error during registration.' });
-  }
-});
-
-// @route   GET /api/auth/verify-email/:token
-// @desc    Verify email using token
-router.get('/verify-email/:token', async (req, res) => {
-  try {
-    const { token } = req.params;
-
-    const user = await User.findOne({
-      verificationToken: token,
-      verificationExpires: { $gt: Date.now() },
-    });
-
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired verification link.' });
-    }
-
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationExpires = undefined;
-    await user.save();
-
-    res.json({ message: 'Email verified successfully! You can now log in.' });
-  } catch (error) {
-    console.error('Verify error:', error);
-    res.status(500).json({ message: 'Server error during verification.' });
   }
 });
 
@@ -110,11 +55,6 @@ router.post('/login', async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password.' });
-    }
-
-    // Check if verified
-    if (!user.isVerified) {
-      return res.status(403).json({ message: 'Please verify your email before logging in.' });
     }
 
     // Generate token
@@ -156,7 +96,7 @@ router.post('/forgot-password', async (req, res) => {
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
     await sendEmail({
       to: email,
-      subject: '🔑 Reset Your Password — PizzaCraft',
+      subject: '🔑 Reset Your Password — SliceHub',
       html: `
         <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 16px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #ff6b35, #ff8c42); padding: 32px; text-align: center;">

@@ -48,7 +48,7 @@ const Checkout = () => {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SwhiY2DhuazFqu',
         amount: order.amount,
         currency: order.currency,
-        name: 'PizzaCraft',
+        name: 'SliceHub',
         description: 'Custom Pizza Order',
         order_id: order.id,
         handler: async (response) => {

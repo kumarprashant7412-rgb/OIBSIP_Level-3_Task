@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../services/api';
 import { toast } from 'react-toastify';
 import './Auth.css';
@@ -7,8 +7,7 @@ import './Auth.css';
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
@@ -23,7 +22,7 @@ const Register = () => {
     try {
       const { data } = await registerUser({ name: form.name, email: form.email, password: form.password });
       toast.success(data.message);
-      setSuccess(true);
+      navigate('/login');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -31,25 +30,6 @@ const Register = () => {
     }
   };
 
-  if (success) {
-    return (
-      <div className="auth-page">
-        <div className="auth-card">
-          <div className="auth-logo">
-            <div className="auth-logo-icon">📧</div>
-            <h1>Check Your Email</h1>
-            <p>We've sent a verification link to <strong>{form.email}</strong></p>
-          </div>
-          <div className="auth-message success">
-            Please click the link in your email to verify your account before logging in.
-          </div>
-          <div className="auth-links">
-            <Link to="/login">Back to Login</Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="auth-page">
@@ -57,7 +37,7 @@ const Register = () => {
         <div className="auth-logo">
           <div className="auth-logo-icon">🍕</div>
           <h1>Create Account</h1>
-          <p>Join PizzaCraft today</p>
+          <p>Join SliceHub today</p>
         </div>
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
